@@ -1,8 +1,3 @@
-rm(list = ls())
-#dev.off()
-
-setwd("C:/Users/Adri/OneDrive - Universitat de Barcelona/Niche/Laura Pollock/PresentClimate-4AdriaMiquel/4.1.presentClimatologies/100")
-
 library(plyr)
 library(dplyr)
 library(dismo)
@@ -185,7 +180,27 @@ art[k,14] <- cal_P[2]
 }
 
 
+#Test for differences in geographical range and niche overlap
+ni_ov <- as.data.frame(ni_ov[, c(3,4,1,2)])
+colnames(ni_ov) <- c("sil/cal_Gomera", "sil/cal_Palma","sil/gom_Gomera", "sil/gom_Hierro")
 
+areS <- as.data.frame(matrix(nrow = 1000, ncol = 7))
+art<- as.data.frame(art)
+areS$V1 <- art$sg1/(art$sg0+art$sg1)
+areS$V2 <- art$sh1/(art$sh0+art$sh1)
+areS$V3 <- art$sp1/(art$sp0+art$sp1)
+areS$V4 <- art$gg1/(art$gg0+art$gg1)
+areS$V5 <- art$gh1/(art$gh0+art$gh1)
+areS$V6 <- art$cg1/(art$cg0+art$cg1)
+areS$V7 <- art$cp1/(art$cp0+art$cp1)
+
+
+colnames(areS) <- c("Sil_g", "Sil_h", "Sil_p", "Gom_g", "Gom_h", "Cal_g", "Cal_p")
+
+#Test for each species-island pairs
+t.test(sample(areS$Gom_g, 100), sample(areS$Gom_h, 100))
+
+t.test(ni_ov$`sil/gom_Gomera`, ni_ov$`sil/gom_Hierro`)
 
 
 names(model) <- spp
